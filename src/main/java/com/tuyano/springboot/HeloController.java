@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.tuyano.springboot.repositories.MyDataRepository;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,9 @@ public class HeloController {
 	
 	@Autowired
 	private MyDataService service;
+	
+	@Autowired
+	MyDataBean myDataBean;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView index(ModelAndView mav) {
@@ -63,6 +67,16 @@ public class HeloController {
 			List<MyData> list = service.find(param);
 			mav.addObject("datalist", list);
 		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ModelAndView indexById(@PathVariable long id, ModelAndView mav) {
+		mav.setViewName("pickup");
+		mav.addObject("title", "Pickup Page");
+		String table = "<table>" + myDataBean.getTableTagById(id) + "</table>";
+		mav.addObject("msg", "pickup data id = " + id);
+		mav.addObject("data", table);
 		return mav;
 	}
 	
