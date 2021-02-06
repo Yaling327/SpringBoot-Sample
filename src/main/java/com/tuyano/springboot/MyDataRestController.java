@@ -9,17 +9,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MyDataRestController {
+
+	@Autowired
+	private MyDataService service;
+	@Autowired
+	MySampleBean bean;
+
+	@RequestMapping("/count")
+	  public int count() {
+	  	  return bean.count();
+	  }
 	
-  @Autowired
-  private MyDataService service;
-  
-  @RequestMapping("/rest") //p.354
-  public List<MyData> restAll(){
-	return service.getAll();  
-  }
-  
-  @RequestMapping("/rest/{num}")
-  public MyData restBy(@PathVariable int num) {
+	@RequestMapping("/rest") // p.354
+	public List<MyData> restAll() {
+		return service.getAll();
+	}
+
+	@RequestMapping("/rest/{num}")
+    public MyData restBy(@PathVariable int num) {
 	  return service.get(num);
-  }
+    }
 }
